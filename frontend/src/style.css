@@ -1,0 +1,65 @@
+:root {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-width: 100vw;
+  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1.15;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+#app {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}

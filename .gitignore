@@ -1,0 +1,60 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+
+# IDE and editor metadata
+.idea/
+.vscode/
+.cursor/
+.claude/
+*.iml
+
+# Java and Maven
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Node.js
+**/node_modules/
+**/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime files
+*.log
+*.pid
+*.tmp
+*.temp
+logs/
+upload/
+uploads/
+
+# Python and cache
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+*.py[cod]
+
+# Reports and local documents
+*.doc
+*.docx
+*.pdf
+*.zip
+*.rar
+*.7z
+
+# Internal course-design and template documentation
+docs/*
+!docs/database.sql
+!docs/demo-seed.sql
+backend/README.md
+backend/src/test/**/README*.md
+frontend/README.md
+
+# OS files
+.DS_Store
+Thumbs.db
