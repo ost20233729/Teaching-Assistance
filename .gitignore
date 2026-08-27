@@ -6,9 +6,13 @@
 # IDE and editor metadata
 .idea/
 .vscode/
+.run/
 .cursor/
 .claude/
 *.iml
+.classpath
+.project
+.settings/
 
 # Java and Maven
 **/target/
@@ -16,6 +20,17 @@
 *.jar
 *.war
 *.ear
+.mvn/timing.properties
+hs_err_pid*
+replay_pid*
+
+# Local application configuration
+**/application-local.properties
+**/application-local.yml
+**/application-local.yaml
+**/application-secrets.properties
+**/application-secrets.yml
+**/application-secrets.yaml
 
 # Node.js
 **/node_modules/

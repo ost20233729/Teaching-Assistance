@@ -1,121 +1,84 @@
 # AI 教学辅助平台
 
-面向高校教师的 AI 教学内容生成与课程管理平台。系统采用 Vue 3、Spring Boot、MyBatis-Plus、MySQL 与 OpenAI 兼容大模型接口，实现课程创建、审核、教学目标生成、课程大纲生成、讲义生成、课件提纲生成、版本恢复和调用统计等功能。
-
-> 本项目由本人独立完成需求分析、系统设计、前后端开发、AI 接口接入、联调测试与工程化整理。
+面向高校教师的教学内容生成与课程管理平台，将课程审核、教学目标、大纲、讲义、课件提纲、版本管理和大模型调用统计整合到统一工作流中。
 
 ## 技术栈
 
-| 层级 | 技术 |
+| 模块 | 技术 |
 | --- | --- |
-| 前端 | Vue 3、TypeScript、Vite、Element Plus |
-| 后端 | Java 17、Spring Boot、MyBatis-Plus |
+| 后端 | Java 17、Spring Boot、MyBatis-Plus、Druid、Springdoc OpenAPI |
 | 数据库 | MySQL 8 |
-| 身份认证 | JWT |
-| AI 服务 | OpenAI 兼容接口、可配置模型与服务地址 |
-| 工程工具 | Maven、Yarn |
+| 身份认证 | JWT、Spring MVC 拦截器 |
+| AI 接入 | OpenAI 兼容接口、可配置模型与 Prompt 模板 |
+| 前端 | Vue 3、TypeScript、Vite、Element Plus |
+| 工程化 | Maven、Yarn、JUnit、MockMvc |
 
 ## 核心功能
 
-### 教师端
+- 教师注册、登录、JWT 身份认证和个人资料维护。
+- 课程创建、编辑、查询、删除、提交审核和审核状态跟踪。
+- 生成课程介绍、教学目标、课程大纲、教学讲义和课件提纲。
+- 支持 Prompt 模板选择、生成参数配置、手动编辑和 Markdown 导出。
+- 保存教学内容历史版本并支持版本查看与恢复。
+- 管理员维护教师账号、审核课程、配置功能限制并发送通知。
+- 统计用户、课程和大模型调用情况，展示成功率、模块分布与调用记录。
 
-- 教师注册、登录与 JWT 身份认证
-- 课程创建、编辑、删除、查询和审核状态查看
-- AI 生成课程介绍与教学目标
-- AI 生成课程大纲、教学讲义和课件提纲
-- Prompt 模板选择与生成参数配置
-- 教学内容手动编辑、保存和 Markdown 导出
-- 教学内容历史版本查看与恢复
-- 课程审核结果和功能限制通知
-- 教师个人资料维护
+### 技术亮点
 
-### 管理员端
+- 使用 `/api/v1` 组织教师端、管理员端和 LLM 工具接口，统一响应与异常处理。
+- 将课程、教学目标、大纲、讲义、课件和历史版本拆分为独立领域模型，降低内容生成流程之间的耦合。
+- 封装大模型配置、Prompt 模板和调用日志，支持切换 OpenAI 兼容服务地址与模型。
+- 通过内容版本快照实现生成结果的可追溯和恢复，避免再次生成覆盖人工修改。
+- 使用环境变量管理数据库和大模型凭据，真实外部 LLM 测试默认跳过，防止误消耗额度。
 
-- 教师账号创建、查询、编辑和删除
-- 课程审核、审核意见填写和状态管理
-- 按教师配置功能使用限制
-- 用户、课程和大模型调用统计
-- LLM 调用成功率、模块分布和最近调用记录查看
+## 个人工作
 
-## 接口结构
+本项目由本人独立完成，主要工作包括：
 
-系统接口统一使用 `/api/v1` 前缀：
+- 完成需求梳理、系统架构、数据库模型和前后端接口设计。
+- 开发教师端课程管理、内容生成、版本恢复、通知和个人资料等后端模块。
+- 开发管理员用户管理、课程审核、功能限制和调用统计模块。
+- 接入 OpenAI 兼容大模型服务，整理 Prompt 模板并实现调用记录与异常处理。
+- 完成 Vue 页面联调、接口测试、测试问题修复和公开仓库脱敏整理。
 
-| 接口分组 | 路径前缀 | 说明 |
-| --- | --- | --- |
-| 认证 | `/api/v1/auth` | 教师登录、管理员登录、注册和账号检查 |
-| 教师端 | `/api/v1/teacher` | 课程、教学内容、模板、通知和个人资料 |
-| 管理员端 | `/api/v1/admin` | 用户管理、课程审核、限制管理和统计 |
-| LLM 工具 | `/api/v1/llm` | 内容生成、Markdown 转换和健康检查 |
+## 本地运行
 
-除登录、注册和健康检查外，其余接口需要携带：
-
-```http
-Authorization: Bearer <token>
-```
-
-## 项目结构
-
-```text
-Teaching-Assistance/
-├── frontend/                       Vue 3 前端
-├── backend/                        Spring Boot 后端
-│   ├── src/main/java/              业务代码
-│   ├── src/main/resources/         配置与 Prompt 模板
-│   └── src/test/                   单元测试与集成测试
-├── docs/                           数据库脚本与设计文档
-├── .env.example                    环境变量示例
-└── README.md                       项目说明
-```
-
-## 快速开始
-
-### 1. 环境要求
+### 环境要求
 
 - JDK 17
-- Maven 3.8 或更高版本
+- Maven 3.8+
 - Node.js LTS
 - Yarn 1.x
 - MySQL 8
 
-### 2. 配置环境变量
+### 启动步骤
 
-项目不会在代码中保存数据库密码或大模型 API Key。需要配置以下环境变量：
-
-- `TEACHING_DB_URL`：MySQL JDBC 地址
-- `TEACHING_DB_USERNAME`：MySQL 用户名
-- `TEACHING_DB_PASSWORD`：MySQL 密码
-- `OPENAI_API_URL`：OpenAI 兼容接口地址
-- `OPENAI_MODEL`：模型名称
-- `OPENAI_API_KEY`：大模型 API Key
-
-Windows PowerShell 示例：
+1. 配置环境变量：
 
 ```powershell
+$env:TEACHING_DB_URL = "jdbc:mysql://localhost:3306/teaching_assistance?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai"
 $env:TEACHING_DB_USERNAME = "root"
 $env:TEACHING_DB_PASSWORD = "你的数据库密码"
+$env:OPENAI_API_URL = "https://你的大模型兼容接口/v1/chat/completions"
+$env:OPENAI_MODEL = "你的模型名称"
 $env:OPENAI_API_KEY = "你的大模型 API Key"
 ```
 
-> `.env.example` 仅用于展示变量名称，不包含真实密码或 Key。真实配置不得提交到 Git。
+2. 按顺序执行数据库脚本：
 
-### 3. 初始化数据库
+```text
+docs/database.sql
+docs/demo-seed.sql
+```
 
-按顺序执行：
-
-1. `docs/database.sql`
-2. `docs/demo-seed.sql`
-
-### 4. 启动后端
+3. 启动后端：
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-默认地址：`http://localhost:8080`
-
-### 5. 启动前端
+4. 启动前端：
 
 ```bash
 cd frontend
@@ -123,42 +86,28 @@ yarn install
 yarn dev
 ```
 
-默认地址：`http://localhost:5173`
+默认访问地址为 `http://localhost:5173`，后端默认监听 `http://localhost:8080`。
 
-## 演示账号
+演示数据脚本提供本地账号 `admin / 123456` 和 `teacher / 123456`，仅用于本地演示。
 
-执行演示数据脚本后可使用：
+## 项目结构
 
-- 管理员：`admin / 123456`
-- 教师：`teacher / 123456`
+```text
+Teaching-Assistance/
+├── backend/
+│   ├── src/main/java/              业务接口与服务
+│   ├── src/main/resources/         配置、Prompt 与内容模板
+│   └── src/test/                   单元测试与接口测试
+├── frontend/                       Vue 3 前端
+├── docs/                           数据库与演示数据脚本
+├── .env.example                    环境变量示例
+└── NOTICE.md                       开发与安全说明
+```
 
-以上账号仅用于本地演示，不应部署到生产环境。
+## 测试与安全
 
-## 测试与验证
-
-本展示版本已完成以下验证：
-
-- 后端执行 `mvn test`：`123` 项测试通过
-- 真实外部 LLM 集成测试：`10` 项按设计跳过，避免默认消耗外部额度
-- 前端执行 `yarn install --frozen-lockfile` 和 `yarn build`：构建成功
-
-展示版本额外修复了以下问题：
-
-- 补齐控制器测试缺失的 `MaterialService` Mock
-- 修正讲义生成测试缺少 `teacherId` 参数的问题
-- 将非法 JSON 请求正确映射为 `400 Bad Request`
-- 将数据库和大模型配置改为环境变量读取
-
-## 敏感信息处理
-
-- 删除真实大模型 API Key
-- 删除数据库真实密码和本地配置
-- 删除课程报告、日志、IDE 配置和构建产物
-- 重新建立干净的 Git 历史，避免已失效凭据出现在公开提交中
-- 默认禁用真实外部 LLM 调用测试
-
-## 开发说明
-
-本项目的核心功能与工程实现由本人独立完成，包括业务需求梳理、系统架构设计、数据库设计、Spring Boot 后端、Vue 前端、大模型接口接入、接口联调、测试验证和仓库脱敏整理。
-
-更详细的开发与安全说明见 `NOTICE.md`。
+- 后端执行 `mvn test`：`123` 项测试通过。
+- `10` 项真实外部 LLM 集成测试按设计跳过，避免默认消耗外部额度。
+- 前端执行 `yarn install --frozen-lockfile` 和 `yarn build`：生产构建通过。
+- 数据库密码、API Key、`.env`、日志、IDE 配置和构建产物均不进入版本控制。
+- 公开版本修复了控制器测试缺失 Mock、讲义生成参数缺失和非法 JSON 响应码等问题。
